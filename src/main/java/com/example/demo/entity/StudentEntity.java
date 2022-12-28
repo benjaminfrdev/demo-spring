@@ -1,13 +1,18 @@
 package com.example.demo.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
+@Entity(name = "student")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "student")
 public class StudentEntity {
     @Id
@@ -25,5 +30,4 @@ public class StudentEntity {
 
     @Column(name = "age")
     private Integer age;
-
 }
