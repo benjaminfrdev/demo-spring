@@ -1,13 +1,22 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.UserDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-//@Controller
-//@RequestMapping("api/v1")
-//public class WebController {
-//
+import java.util.List;
+
+@RestController
+@RequestMapping("api/v1")
+public class WebController {
+
+    @GetMapping("/")
+    public ResponseEntity<?> getAllUsers(){
+        return ResponseEntity.ok("Successfully");
+    }
 //    // Đón nhận request GET
 //    @GetMapping("/") // Nếu người dùng request tới địa chỉ "/"
 //    public String index() {
@@ -24,5 +33,5 @@ import org.springframework.web.bind.annotation.*;
 //        model.addAttribute("name",name);
 //        return "hello";
 //    }
-//
-//}
+
+}
