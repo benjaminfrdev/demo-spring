@@ -1,5 +1,6 @@
 package com.example.demo.configuration;
 
+import com.example.demo.configuration.jwtconfig.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,18 +11,27 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class AppConfiguration {
     private UserService userService;
-    public AppConfiguration(UserService userService){
+
+    public AppConfiguration(UserService userService) {
         this.userService = userService;
     }
+
     @Bean
-    public PasswordEncoder encoder(){
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
+
+    @Bean
+    public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, PasswordEncoder passwordEncoder) throws Exception {
         AuthenticationManagerBuilder authBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
@@ -30,14 +40,24 @@ public class AppConfiguration {
 
     }
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests()
-                    .anyRequest()
-                    .authenticated()
-                    .and()
-                    .httpBasic()
-                    .and()
-                    .build();
+        return http
+                .cors()
+                .and()
+                .csrf()
+                .disable()
+                .authorizeHttpRequests()
+                .antMatchers("/api/v1/*").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic()
+                .and()
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .build();
+
+
     }
 }

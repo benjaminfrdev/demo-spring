@@ -12,6 +12,8 @@ import java.util.Collections;
 
 public class CustomUserDetails implements UserDetails {
     private UserEntity userEntity;
+    private Long userId;
+
     public CustomUserDetails(UserEntity userEntity){
         this.userEntity = userEntity;
     }
@@ -20,6 +22,9 @@ public class CustomUserDetails implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
+    public Long getUserId() {
+        return userEntity.getId();
+    }
     @Override
     public String getPassword() {
         return userEntity.getPassword();
@@ -49,4 +54,6 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

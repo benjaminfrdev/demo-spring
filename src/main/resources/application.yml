@@ -11,9 +11,9 @@
 #      mode: always
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/demoSpring
+    url: jdbc:mysql://localhost:3306/student
     username: root
-    password:
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
